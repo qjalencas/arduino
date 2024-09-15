@@ -21,7 +21,9 @@
 #include <NetworkClient.h>
 #include <WiFiAP.h>
 
-#define LED_BUILTIN 12 // Set the GPIO pin where you connected your test LED
+#define LED_BUILTIN 12
+#define LED_BUILTIN2 13
+#define LED_BUILTIN3 14 // Set the GPIO pin where you connected your test LED
 
 // Set these to your desired credentials.
 const char *ssid = "yourAP";
@@ -73,8 +75,12 @@ void loop() {
 
             // the content of the HTTP response follows the header:
             client.print("<H2>Quim:<br><br>");
-            client.print("Click <a href=\"/H\">here</a> to turn ON the LED.<br><br>");
-            client.print("Click <a href=\"/L\">here</a> to turn OFF the LED.<br>");
+            client.print("Click <a href=\"/H\">here</a> to turn ON thh red LED.<br><br>");
+            client.print("Click <a href=\"/L\">here</a> to turn OFF the red LED.<br><br>");
+            client.print("Click <a href=\"/M\">here</a> to turn ON the ambar LED.<br><br>");
+            client.print("Click <a href=\"/N\">here</a> to turn OFF the ambar LED.<br><br>");
+            client.print("Click <a href=\"/J\">here</a> to turn ON the green LED.<br><br>");
+            client.print("Click <a href=\"/G\">here</a> to turn OFF the green LED.<br><br>");
 
             // The HTTP response ends with another blank line:
             client.println();
@@ -93,6 +99,18 @@ void loop() {
         }
         if (currentLine.endsWith("GET /L")) {
           digitalWrite(LED_BUILTIN, LOW);  // GET /L turns the LED off
+        }
+        if (currentLine.endsWith("GET /M")) {
+          digitalWrite(LED_BUILTIN2, HIGH);  // GET /M turns the LED on
+        }
+        if (currentLine.endsWith("GET /N")) {
+          digitalWrite(LED_BUILTIN2, LOW);  // GET /N turns the LED off
+        }
+        if (currentLine.endsWith("GET /J")) {
+          digitalWrite(LED_BUILTIN3, HIGH);  // GET /J turns the LED on
+        }
+        if (currentLine.endsWith("GET /G")) {
+          digitalWrite(LED_BUILTIN3, LOW);  // GET /G turns the LED off
         }
       }
     }
