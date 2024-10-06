@@ -33,6 +33,8 @@ NetworkServer server(80);
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LED_BUILTIN2, OUTPUT);
+  pinMode(LED_BUILTIN3, OUTPUT);
   delay(5000);
   Serial.begin(115200);
   Serial.println();
