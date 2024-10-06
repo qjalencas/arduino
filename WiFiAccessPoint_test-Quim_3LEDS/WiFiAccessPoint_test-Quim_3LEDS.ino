@@ -29,10 +29,14 @@
 const char *ssid = "yourAP";
 const char *password = "JoanQuim";
 
+int ambarLedState = 0;
+
 NetworkServer server(80);
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LED_BUILTIN2, OUTPUT);
+  pinMode(LED_BUILTIN3, OUTPUT);
   delay(5000);
   Serial.begin(115200);
   Serial.println();
@@ -77,8 +81,7 @@ void loop() {
             client.print("<H2>Quim:<br><br>");
             client.print("Click <a href=\"/H\">here</a> to turn ON thh red LED.<br><br>");
             client.print("Click <a href=\"/L\">here</a> to turn OFF the red LED.<br><br>");
-            client.print("Click <a href=\"/M\">here</a> to turn ON the ambar LED.<br><br>");
-            client.print("Click <a href=\"/N\">here</a> to turn OFF the ambar LED.<br><br>");
+            client.print("Click <a href=\"/M\">here</a> to switch the state of the ambar LED.<br><br>");
             client.print("Click <a href=\"/J\">here</a> to turn ON the green LED.<br><br>");
             client.print("Click <a href=\"/G\">here</a> to turn OFF the green LED.<br><br>");
 
@@ -95,19 +98,27 @@ void loop() {
 
         // Check to see if the client request was "GET /H" or "GET /L":
         if (currentLine.endsWith("GET /H")) {
-          digitalWrite(LED_BUILTIN, HIGH);  // GET /H turns the LED on
+          digitalWrite(LED_BUILTIN, HIGH);
+          digitalWrite(LED_BUILTIN3, LOW);  // GET /H turns the LED on
         }
         if (currentLine.endsWith("GET /L")) {
           digitalWrite(LED_BUILTIN, LOW);  // GET /L turns the LED off
         }
         if (currentLine.endsWith("GET /M")) {
-          digitalWrite(LED_BUILTIN2, HIGH);  // GET /M turns the LED on
+          if (ambarLedState == 0) {
+          digitalWrite(LED_BUILTIN2, HIGH); 
+          ambarLedState = 1;  }
+          else{
+            digitalWrite(LED_BUILTIN2, LOW);
+            ambarLedState = 0;
+          } 
         }
         if (currentLine.endsWith("GET /N")) {
           digitalWrite(LED_BUILTIN2, LOW);  // GET /N turns the LED off
         }
         if (currentLine.endsWith("GET /J")) {
-          digitalWrite(LED_BUILTIN3, HIGH);  // GET /J turns the LED on
+          digitalWrite(LED_BUILTIN3, HIGH);
+          digitalWrite(LED_BUILTIN, LOW);  // GET /J turns the LED on
         }
         if (currentLine.endsWith("GET /G")) {
           digitalWrite(LED_BUILTIN3, LOW);  // GET /G turns the LED off
